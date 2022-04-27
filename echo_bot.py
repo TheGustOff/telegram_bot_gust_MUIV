@@ -14,7 +14,7 @@ def start(m, res=False):
     print("qq")
     global bot_state
     bot_state = LISTENING_TO_COMMANDS
-    bot.send_message(m.chat.id, 'Я на связи. Напиши мне что-нибудь )')
+    bot.send_message(m.chat.id, 'Я на связи. Напиши мне что-нибудь )', reply_markup=keyboard1)
 
 @bot.message_handler(commands=['stop'])
 def stop(m, res=False):
@@ -25,6 +25,10 @@ def stop(m, res=False):
 def handle_text(message):
     if bot_state != IDLE:
         bot.send_message(message.chat.id, 'Вы написали: ' + message.text)
+
+
+keyboard1 = telebot.types.ReplyKeyboardMarkup(True, True)
+keyboard1.row('/start', '/stop')
 
 
 bot.polling(none_stop=True, interval=0)
