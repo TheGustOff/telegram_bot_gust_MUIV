@@ -1,8 +1,7 @@
 from telebot import types
 import telebot, wikipedia, re
 from config import *
-
-bot = telebot.TeleBot(TOKEN)
+from base_bot import bot
 
 # WIKIPEDIA-БОТ
 IDLE = 0
@@ -32,7 +31,6 @@ def getwiki(s):
 
 @bot.message_handler(commands=['wiki'])
 def wiki(m, res=False):
-    print("qq")
     global bot_state
     bot_state = LISTENING_TO_COMMANDS
     bot.send_message(m.chat.id, 'Отправьте мне любое слово, и я найду его значение на Wikipedia', reply_markup=keyboard1)
@@ -42,7 +40,6 @@ def stop(m, res=False):
     global bot_state
     bot_state = IDLE
 
-@bot.message_handler(content_types=['text'])
 def handle_text(message):
     if bot_state != IDLE:
         bot.send_message(message.chat.id, getwiki(message.text), reply_markup=keyboard1)
@@ -51,5 +48,6 @@ def handle_text(message):
 keyboard1 = telebot.types.ReplyKeyboardMarkup(True, True)
 keyboard1.row('/wiki', '/stop')
 
-
-bot.polling(none_stop=True, interval=0)
+if __name__ == "__main__":
+    from base_bot import main
+    main()
