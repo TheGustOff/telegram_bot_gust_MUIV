@@ -1,13 +1,23 @@
 from config import *
 import telebot
 bot = telebot.TeleBot(TOKEN)
+text_handlers = None
 
-def main():
+
+def main(*new_text_handlers):
+    global text_handlers
+
+    def handle_text(message):
+        for handler in text_handlers:
+            handler(message)
+
+    text_handlers = new_text_handlers
+    bot.message_handler(content_types=['text'])(handle_text)
     bot.polling(none_stop=True, interval=0)
 
-# @bot.message_handler(content_types=['text'])
+# @
 
-def text_handlers(*handlers):
+def text_handlers():
     for handler in handlers:
         bot.message_handler(content_types=['text'])(handler)
 
