@@ -3,7 +3,7 @@ import telebot, wikipedia, re
 from config import *
 from base_bot import bot
 
-# ////
+# Test-bot
 IDLE = 0
 LISTENING_TO_COMMANDS = 2
 bot_state = IDLE
@@ -15,11 +15,6 @@ def start_message(message):
     markup.add(telebot.types.InlineKeyboardButton(text='Четыре', callback_data=4))
     markup.add(telebot.types.InlineKeyboardButton(text='Пять', callback_data=5))
     bot.send_message(message.chat.id, text="Какая средняя оценка была у Вас в школе?", reply_markup=markup)
-
-@bot.message_handler(commands=['stop'])
-def stop(m, res=False):
-    global bot_state
-    bot_state = IDLE
 
 @bot.callback_query_handler(func=lambda call: True)
 def query_handler(call):
@@ -35,6 +30,15 @@ def query_handler(call):
 
     bot.send_message(call.message.chat.id, answer)
     bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
+
+@bot.message_handler(commands=['stop'])
+def stop(m, res=False):
+    global bot_state
+    bot_state = IDLE
+
+def handle_text(message):
+    if bot_state != IDLE:
+        bot.send_message(message.chat.id, getwiki(message.text), reply_markup=keyboard1)
 
 keyboard1 = telebot.types.ReplyKeyboardMarkup(True, True)
 keyboard1.row('/test', '/stop')
