@@ -1,16 +1,14 @@
 from time import sleep
 from telebot import types
-import telebot, wikipedia, re
 from config import *
 from base_bot import bot
 
-# Dialog_bot
+# Text_game_bot
 IDLE = 0
-LISTENING_TO_COMMANDS = 2
+LISTENING_TO_COMMANDS = 5
 bot_state = IDLE
 
-
-@bot.message_handler(content_types=['text'])
+@bot.message_handler(content_types=['game'])
 def send_echo(message):
     m = 0
     while 1:
@@ -111,7 +109,6 @@ def send_echo(message):
                 bot.send_message('\nNot command\n')
                 coins -= farm
                 day -= 1
-
 
 if __name__ == "__main__":
     from base_bot import main

@@ -5,7 +5,7 @@ from base_bot import bot
 
 # Dialog_bot
 IDLE = 0
-LISTENING_TO_COMMANDS = 2
+LISTENING_TO_COMMANDS = 4
 bot_state = IDLE
 
 '''@bot.message_handler(content_types=['text'])
